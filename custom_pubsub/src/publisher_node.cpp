@@ -40,7 +40,7 @@ private:
   void timer_callback()
   {
     auto message = std_msgs::msg::String();
-    message.data = "Hi this is Sairam, talking for" + std::to_string(count_++)+ "time";
+    message.data = "Hi this is Sairam, talking for " + std::to_string(count_++)+ " time.";
     RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
     publisher_->publish(message);
   }
