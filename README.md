@@ -23,7 +23,10 @@ cd ~/ros2_ws/src
 ```
 git clone https://github.com/sairampolina/beginner_tutorials.git
 ```
-
+### Ensure all dependencies exist
+```
+rosdep install -i --from-path src --rosdistro humble -y
+```
 ### Build the Package 
 Navigate to root of your workspace and build your package
 ```
