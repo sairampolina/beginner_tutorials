@@ -41,8 +41,8 @@ class MinimalPublisher : public rclcpp::Node {
 
     // Parameter for initializing publisher frequency  with custom frequency
     auto custom_pubfreq_info = rcl_interfaces::msg::ParameterDescriptor();
-    custom_pubfreq_info.description = "Custom frequency"+
-                                     "value for the publisher";
+    custom_pubfreq_info.description = 
+                  "Custom frequency value for the publisher";
     this->declare_parameter("custom_pubfreq", 1.0, custom_pubfreq_info);
     auto custom_pubfreq = this->get_parameter("custom_pubfreq")
                   .get_parameter_value().get<std::float_t>();
@@ -54,6 +54,9 @@ class MinimalPublisher : public rclcpp::Node {
       } else if (custom_pubfreq == 0) {
         RCLCPP_WARN_STREAM(this->get_logger(),
                   "Frequency set to zero!!");
+        RCLCPP_FATAL_STREAM(this->get_logger(),
+                  "Not publishing Data!!");
+                
       }
 
     publisher_ = this->create_publisher<std_msgs::msg::String>
