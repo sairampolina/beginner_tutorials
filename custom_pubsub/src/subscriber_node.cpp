@@ -12,6 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+/**
+ * @file subscriber_node.cpp
+ * @author Sairam Polina (sairamp@umd.edu)
+ * @brief Ros2 Subscriber node 
+ * @version 0.1
+ * @date 2022-11-16
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
 #include <functional>
 #include <memory>
 
@@ -30,6 +41,11 @@ class MinimalSubscriber : public rclcpp::Node {
   }
 
  private:
+ /**
+  * @brief topic callback function to collect data from topic
+  * 
+  * @param msg 
+  */
   void topic_callback(const std_msgs::msg::String::SharedPtr msg) const {
     RCLCPP_INFO_STREAM(this->get_logger(), "Sairam says: "<< msg->data);
   }
