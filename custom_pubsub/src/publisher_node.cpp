@@ -20,7 +20,7 @@
 #include "rclcpp/logging.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
-#include "custom_pubsub/srv/ModifyString.srv"
+#include "custom_pubsub/srv/modify_string.hpp"
 
 using namespace std::chrono_literals;
 
@@ -39,9 +39,10 @@ class MinimalPublisher : public rclcpp::Node {
     RCLCPP_DEBUG_STREAM(this->get_logger(),
                     "Getting frequency parameter value");
 
-    //Parameter for initializing publisher frequency  with custom frequency
+    // Parameter for initializing publisher frequency  with custom frequency
     auto custom_pubfreq_info = rcl_interfaces::msg::ParameterDescriptor();
-    custom_pubfreq_info.description = "Custom frequency value for the publisher";
+    custom_pubfreq_info.description = "Custom frequency"+
+                                     "value for the publisher";
     this->declare_parameter("custom_pubfreq", 1.0, custom_pubfreq_info);
     auto custom_pubfreq = this->get_parameter("custom_pubfreq")
                   .get_parameter_value().get<std::float_t>();
@@ -58,48 +59,44 @@ class MinimalPublisher : public rclcpp::Node {
     publisher_ = this->create_publisher<std_msgs::msg::String>
                  ("topic", 10);
     // calculate publisher freq
-    auto time=std::chrono::milliseconds(static_cast<int>(1000/custom_pubfreq))
+    auto time = std::chrono::milliseconds(
+            static_cast<int>(1000/custom_pubfreq));
 
     timer_ = this->create_wall_timer(
       time, std::bind(&MinimalPublisher::timer_callback, this));
 
-    
     auto serviceCallbackPtr = std::bind(&MinimalPublisher::modify_message,
                     this, std::placeholders::_1, std::placeholders::_2);
 
     service_ = create_service<custom_pubsub::srv::ModifyString>(
                     "modify_message", serviceCallbackPtr);
-
-    
-  }
+    }
 
  private:
   void timer_callback() {
-
     auto message = std_msgs::msg::String();
     message.data = "Hi this is Sairam, talking for "+
     std::to_string(count_++)+ " time.";
-    RCLCPP_INFO_STREAM(this->get_logger(), "Publishing: "<<message.data);
+    RCLCPP_INFO_STREAM(this->get_logger(), "Publishing: " << message.data);
     publisher_->publish(message);
   }
 
-  void modify_message(const std::shared_ptr<custom_pubsub::srv::ModifyString::Request> request,
-  std::shared_ptr<custom_pubsub::srv::ModifyString::Response> response) {
-    response->response_message = request->request_message;
+  void modify_message(
+    const std::shared_ptr<custom_pubsub::srv::ModifyString::Request> request,
+    std::shared_ptr<custom_pubsub::srv::ModifyString::Response> response) {
+    response->response_message = request->request_message+
+             " hi, this is not request message!!!";
     RCLCPP_INFO_STREAM(this->get_logger(),
                   "Request message: "<< request->request_message);
     RCLCPP_INFO_STREAM(this->get_logger(),
-                  "Response message: "<< response->response_message);          
-
+                  "Response message: "<< response->response_message);
   }
+
   rclcpp::TimerBase::SharedPtr timer_;
   rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;
   rclcpp::Service<custom_pubsub::srv::ModifyString>::SharedPtr service_;
   size_t count_;
-
-
 };
-
 
 int main(int argc, char * argv[]) {
   rclcpp::init(argc, argv);
