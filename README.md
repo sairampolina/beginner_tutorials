@@ -96,5 +96,5 @@ cpplint --filter=-build/c++11,+build/c++17,-build/namespaces,-build/include_orde
 ```
 ### Cppcheck
 ```
-cppcheck --enable=all --std=c++17 src/*.cpp --suppress=missingIncludeSystem --suppress=missingInclude --suppress=unmatchedSuppression > ./results/cppcheck.txt
+cppcheck --enable=all --std=c++17 src/*.cpp --suppress=missingIncludeSystem --suppress=missingInclude --suppress=unmatchedSuppression > ../results/cppcheck.txt
 ```
