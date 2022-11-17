@@ -12,6 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+/**
+ * @file publisher_node.cpp
+ * @author Sairam Polina (sairamp@umd.edu)
+ * @brief Illustration of how to write basic ROS2 publisher subscriber and srvics, and logging
+ * @version 0.1
+ * @date 2022-11-16
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
 #include <chrono>
 #include <functional>
 #include <memory>
@@ -41,8 +52,8 @@ class MinimalPublisher : public rclcpp::Node {
 
     // Parameter for initializing publisher frequency  with custom frequency
     auto custom_pubfreq_info = rcl_interfaces::msg::ParameterDescriptor();
-    custom_pubfreq_info.description = 
-                  "Custom frequency value for the publisher";
+    custom_pubfreq_info.description =
+                   "Custom frequency value for the publisher";
     this->declare_parameter("custom_pubfreq", 1.0, custom_pubfreq_info);
     auto custom_pubfreq = this->get_parameter("custom_pubfreq")
                   .get_parameter_value().get<std::float_t>();
@@ -54,9 +65,7 @@ class MinimalPublisher : public rclcpp::Node {
       } else if (custom_pubfreq == 0) {
         RCLCPP_WARN_STREAM(this->get_logger(),
                   "Frequency set to zero!!");
-        RCLCPP_FATAL_STREAM(this->get_logger(),
-                  "Not publishing Data!!");
-                
+         RCLCPP_FATAL_STREAM(this->get_logger(), "Not publishing Data!!");
       }
 
     publisher_ = this->create_publisher<std_msgs::msg::String>
@@ -76,6 +85,10 @@ class MinimalPublisher : public rclcpp::Node {
     }
 
  private:
+ /**
+  * @brief callback funtion which calls the publisher according to set frequency
+  * 
+  */
   void timer_callback() {
     auto message = std_msgs::msg::String();
     message.data = "Hi this is Sairam, talking for "+
@@ -84,6 +97,12 @@ class MinimalPublisher : public rclcpp::Node {
     publisher_->publish(message);
   }
 
+  /**
+   * @brief service to modify  a string message 
+   * 
+   * @param request string input message ptr
+   * @param response string output message ptr
+   */
   void modify_message(
     const std::shared_ptr<custom_pubsub::srv::ModifyString::Request> request,
     std::shared_ptr<custom_pubsub::srv::ModifyString::Response> response) {
@@ -94,7 +113,10 @@ class MinimalPublisher : public rclcpp::Node {
     RCLCPP_INFO_STREAM(this->get_logger(),
                   "Response message: "<< response->response_message);
   }
-
+  /**
+   * @brief private data members
+   * 
+   */
   rclcpp::TimerBase::SharedPtr timer_;
   rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;
   rclcpp::Service<custom_pubsub::srv::ModifyString>::SharedPtr service_;
