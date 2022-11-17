@@ -1,0 +1,19 @@
+launch:
+
+- arg:
+    name: "custom_pubfreq"
+    default: "3.0"
+
+- node:
+    pkg: "custom_pubsub"
+    exec: "talker"
+    name: "publisher_node"
+    param:
+    -
+      name: "custom_pubfreq"
+      value: "$(var custom_pubfreq)"
+
+- node:
+    pkg: "custom_pubsub"
+    exec: "listener"
+    name: "subscriber_node"
