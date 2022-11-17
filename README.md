@@ -82,6 +82,10 @@ At the start of publisher you can visulize DEBUG log
 ```
 ros2 launch custom_pubsub custom_pubsub_service_launch.yaml 
 ```
+## rqtconsole output
+```
+ros2 run rqt_console rqt_console
+```
 
 ## Static code analysis
 Navigate to custom_pubsub package and then run
