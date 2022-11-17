@@ -50,6 +50,43 @@ In a new terminal
 ```
 ros2 run custom_pubsub talker
 ```
+
+### To launch publisher and subscriber with a single command
+```
+ros2 launch custom_pubsub custom_pubsub_service_launch.yaml
+```
+
+### To launch publisher,subsriber with parameter
+Frequency of publishing data, can be altered by the user using command:
+```
+ros2 launch custom_pubsub custom_pubsub_service_launch.yaml custom_pubfreq:=5.0
+```
+
+## Running Services 
+A service ```/modify_message``` is written,which modifies request message and  returns response message.
+```
+ros2 service call /modify_message custom_pubsub/srv/ModifyString "{request_message: hello}"
+```
+
+## To check different LOGGING 
+### Error log
+```
+ros2 launch custom_pubsub custom_pubsub_service_launch.yaml custom_pubfreq:= -1.0
+```
+### Warn log and Fatal log
+```
+ros2 launch custom_pubsub custom_pubsub_service_launch.yaml custom_pubfreq:= 0.0
+```
+### Debug log
+At the start of publisher you can visulize DEBUG log
+```
+ros2 launch custom_pubsub custom_pubsub_service_launch.yaml 
+```
+## rqtconsole output
+```
+ros2 run rqt_console rqt_console
+```
+
 ## Static code analysis
 Navigate to custom_pubsub package and then run
 
@@ -59,5 +96,5 @@ cpplint --filter=-build/c++11,+build/c++17,-build/namespaces,-build/include_orde
 ```
 ### Cppcheck
 ```
-cppcheck --enable=all --std=c++17 src/*.cpp --suppress=missingIncludeSystem --suppress=missingInclude --suppress=unmatchedSuppression > ./results/cppcheck.txt
+cppcheck --enable=all --std=c++17 src/*.cpp --suppress=missingIncludeSystem --suppress=missingInclude --suppress=unmatchedSuppression > ../results/cppcheck.txt
 ```
