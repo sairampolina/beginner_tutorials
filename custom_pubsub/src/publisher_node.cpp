@@ -168,6 +168,7 @@ private:
 
 int main(int argc, char * argv[]) {
 
+  // To run publisher only
   if (argc ==1){
     rclcpp::init(argc, argv);
     rclcpp::spin(std::make_shared<MinimalPublisher>());
@@ -177,6 +178,8 @@ int main(int argc, char * argv[]) {
   }
 
   else{
+
+    // to run  static broadcaster
     auto logger = rclcpp::get_logger("logger");
 
     // Obtain parameters from command line arguments
