@@ -8,18 +8,18 @@ Follow the instructions from [here](http://docs.ros.org/en/humble/Installation.h
 
 ## Instructions to run publisher and subscriber:
 
-### Source ROS2 setup file 
+### Source ROS2 setup file: 
 In a new terminal source your ROS2 set up file.If installed from binary floow below instructions
 ```
 source /opt/ros/humble/setup.bash
 ```
-### Navigate to ROS workspace
+### Navigate to ROS workspace:
 Navigate to your ros workspace.If ROS workspace dose not exist create one. Follow these [instructions](http://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html) to set up your workspace
 ```
 cd ~/ros2_ws/src
 ```
 
-### Clone the Package
+### Clone the Package:
 ```
 git clone https://github.com/sairampolina/beginner_tutorials.git
 ```
@@ -27,37 +27,37 @@ git clone https://github.com/sairampolina/beginner_tutorials.git
 ```
 rosdep install -i --from-path src --rosdistro humble -y
 ```
-### Build the Package 
+### Build the Package:
 Navigate to root of your workspace and build your package
 ```
 cd ..
 colcon build --packages-select custom_pubsub
 ```
 
-### Source your overlay
+### Source your overlay:
 In a new terminal
 ```
 source install/local_setup.bash
 ```
 
-### To Run only the publisher 
+### To Run only the publisher: 
 ```
 ros2 run custom_pubsub talker
 ```
 
-### To Run only the subscriber
+### To Run only the subscriber:
 In a new terminal
 ```
 ros2 run custom_pubsub talker
 ```
 
-### To launch publisher and subscriber with a single command
+### To launch publisher and subscriber with a single command:
 ```
 ros2 launch custom_pubsub custom_pubsub_service_launch.yaml
 ```
 
-### To launch publisher,subsriber and adjust frequrncy of publishing
-Frequency of publishing data, can be altered by the user using command:
+### To launch publisher,subsriber and adjust frequrncy of publishing:
+Frequency of publishing data, can be altered by the user using this command:
 ```
 ros2 launch custom_pubsub custom_pubsub_service_launch.yaml custom_pubfreq:=5.0
 ```
@@ -69,15 +69,15 @@ ros2 service call /modify_message custom_pubsub/srv/ModifyString "{request_messa
 ```
 
 ## To check different LOGGING 
-### Error log
+### Error log:
 ```
 ros2 launch custom_pubsub custom_pubsub_service_launch.yaml custom_pubfreq:= -1.0
 ```
-### Warn log and Fatal log
+### Warn log and Fatal log:
 ```
 ros2 launch custom_pubsub custom_pubsub_service_launch.yaml custom_pubfreq:= 0.0
 ```
-### Debug log
+### Debug log:
 At the start of publisher you can visulize DEBUG log
 ```
 ros2 launch custom_pubsub custom_pubsub_service_launch.yaml 
@@ -103,12 +103,12 @@ Navigate to folder where you want to store your bag.
 ```
 ros2 launch custom_pubsub bag_recorder_launch.py record_all_topics:=true
 ```
-### To check content in the bag.
+### To check content in the bag:
 It should show different topics recorded and no of messages recorded of each type..
 ```
 ros2 bag info all_topics_bag/
 ```
-### Using bag as a publisher.
+### Using bag as a publisher:
 Navigate to folder where you stored bag.
 
 run the bag
