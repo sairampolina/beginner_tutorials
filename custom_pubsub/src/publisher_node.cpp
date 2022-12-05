@@ -1,4 +1,4 @@
-// Copyright 2016 Open Source Robotics Foundation, Inc.
+// Copyright Venkata Sai Ram Polina
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -126,21 +126,23 @@ class MinimalPublisher : public rclcpp::Node {
   size_t count_;
 };
 
-class StaticFramePublisher : public rclcpp::Node
-{
-public:
+/**
+ * @brief This class publishes a static frame to /tf_static topic
+ * 
+ */
+class StaticFramePublisher : public rclcpp::Node {
+ public:
   explicit StaticFramePublisher(char * transformation[])
-  : Node("publisher_node")
-  {
-    tf_static_broadcaster_ = std::make_shared<tf2_ros::StaticTransformBroadcaster>(this);
+  : Node("publisher_node") {
+    tf_static_broadcaster_ =
+    std::make_shared<tf2_ros::StaticTransformBroadcaster>(this);
 
     // Publish static transforms once at startup
     this->make_transforms(transformation);
   }
 
-private:
-  void make_transforms(char * transformation[])
-  {
+ private:
+  void make_transforms(char * transformation[]) {
     geometry_msgs::msg::TransformStamped t;
 
     t.header.stamp = this->get_clock()->now();
@@ -166,19 +168,17 @@ private:
   std::shared_ptr<tf2_ros::StaticTransformBroadcaster> tf_static_broadcaster_;
 };
 
-int main(int argc, char * argv[]) {
 
+
+
+int main(int argc, char * argv[]) {
   // To run publisher only
-  if (argc ==1){
+  if (argc ==1) {
     rclcpp::init(argc, argv);
     rclcpp::spin(std::make_shared<MinimalPublisher>());
     rclcpp::shutdown();
     return 0;
-
-  }
-
-  else{
-
+  } else {
     // to run  static broadcaster
     auto logger = rclcpp::get_logger("logger");
 
@@ -205,7 +205,5 @@ int main(int argc, char * argv[]) {
     rclcpp::spin(std::make_shared<StaticFramePublisher>(argv));
     rclcpp::shutdown();
     return 3;
-
   }
-  
 }
