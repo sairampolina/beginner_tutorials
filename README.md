@@ -119,6 +119,12 @@ run the subscriber
 ```
 ros2 run custom_pubsub talker
 ```
+## Testing
+### To run g testing: 
+```
+colcon test --event-handlers console_direct+ --packages-select custom_pubsub
+```
+
 
 ## Static code analysis
 Navigate to custom_pubsub package and then run
